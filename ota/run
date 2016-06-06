@@ -1,3 +1,0 @@
-#!/bin/zsh
-
-platformio run --target upload --environment nodemcuv2

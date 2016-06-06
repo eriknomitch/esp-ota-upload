@@ -1,2 +1,4 @@
+.pioenvs
+
 # Ignore all swap files
 .*.swp
