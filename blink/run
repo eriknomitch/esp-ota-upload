@@ -1,3 +1,12 @@
 #!/bin/zsh
 
-platformio run --target upload --environment nodemcuv2_ota
+
+if [[ -e /dev/tty.SLAB_USBtoUART ]] ; then
+  echo "Device found locally."
+  _environment="nodemcuv2"
+else
+  echo "Device not found locally; switching to OTA."
+  _environment="nodemcuv2_ota"
+fi
+
+platformio run --target upload --environment $_environment
