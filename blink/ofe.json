@@ -1,6 +1,6 @@
 {
   "default": {
-    "extensions": [".ino"]
+    "extensions": [".ino", ".ini"]
   },
   "docs": {
     "extensions": [".md"],

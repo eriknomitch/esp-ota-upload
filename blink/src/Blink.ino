@@ -80,9 +80,9 @@ void loop() {
 
   digitalWrite(BUILTIN_LED, HIGH);
   digitalWrite(LED_PIN, HIGH);
-  delay(5090);
+  delay(500);
   digitalWrite(BUILTIN_LED, LOW);
   digitalWrite(LED_PIN, LOW);
-  delay(5000);
+  delay(500);
 
 }
