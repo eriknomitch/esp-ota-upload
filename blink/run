@@ -5,7 +5,7 @@ if [[ -e /dev/tty.SLAB_USBtoUART ]] ; then
   echo "Device found locally."
   _environment="nodemcuv2"
 else
-  echo "Device not found locally; switching to OTA."
+  echo "Device not found locally; uploading via OTA."
   _environment="nodemcuv2_ota"
 fi
 
