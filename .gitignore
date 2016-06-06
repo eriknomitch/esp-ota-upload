@@ -2,3 +2,5 @@
 
 # Ignore all swap files
 .*.swp
+
+src/tmp_ino_to.cpp
