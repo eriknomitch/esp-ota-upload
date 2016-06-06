@@ -9,4 +9,10 @@ else
   _environment="nodemcuv2_ota"
 fi
 
-platformio run --target upload --environment $_environment
+if platformio run --target upload --environment $_environment ; then
+  _message="Success."
+else
+  _message="Failed to upload."
+fi
+
+notify "Upload" $_message
