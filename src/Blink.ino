@@ -18,6 +18,7 @@ void sendPushNotification(String title, String message) {
 
   postBody = postBody + "&title="   + title;
   postBody = postBody + "&message=" + message;
+  postBody = postBody + "&sound=none";
 
   http.POST(postBody);
   http.writeToStream(&Serial);
@@ -72,17 +73,21 @@ void setup() {
   Serial.println(WiFi.localIP());
 
   sendPushNotification(WiFi.hostname(), WiFi.localIP().toString());
-
+  
+  digitalWrite(BUILTIN_LED, LOW);
 }
 
 void loop() {
   ArduinoOTA.handle();
 
+  /*
+
   digitalWrite(BUILTIN_LED, HIGH);
-  digitalWrite(LED_PIN, HIGH);
-  delay(2000);
+  //digitalWrite(LED_PIN, HIGH);
+  delay(200);
   digitalWrite(BUILTIN_LED, LOW);
-  digitalWrite(LED_PIN, LOW);
-  delay(2000);
+  //digitalWrite(LED_PIN, LOW);
+  delay(200);
+  */
 
 }
