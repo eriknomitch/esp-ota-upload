@@ -3,19 +3,20 @@
 #PATH := /usr/local/bin:$(PATH)
 
 all:
-	platformio -f -c vim run
-
-upload:
 	platformio -f -c vim run --target upload --environment nodemcuv2_ota
+	#platformio -f -c vim run
 
-clean:
-	platformio -f -c vim run --target clean
+#upload:
+	#platformio -f -c vim run --target upload --environment nodemcuv2_ota
 
-program:
-	platformio -f -c vim run --target program
+#clean:
+	#platformio -f -c vim run --target clean
 
-uploadfs:
-	platformio -f -c vim run --target uploadfs
+#program:
+	#platformio -f -c vim run --target program
 
-update:
-	platformio -f -c vim update
+#uploadfs:
+	#platformio -f -c vim run --target uploadfs
+
+#update:
+	#platformio -f -c vim update
