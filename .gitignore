@@ -4,3 +4,5 @@
 .*.swp
 
 src/tmp_ino_to.cpp
+
+src/env.h

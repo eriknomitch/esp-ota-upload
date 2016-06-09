@@ -4,8 +4,9 @@
 #include <ArduinoOTA.h>
 #include <ESP8266HTTPClient.h>
 #include <ESP8266WebServer.h>
+#include <env.h>
 
-const char* ssid = "Toad2G";
+const char* ssid = WIFI_ESSID;
 const char* password = "Madmen!!";
 
 // Lower-case version of hostname (set later)
