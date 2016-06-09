@@ -6,16 +6,23 @@
 #include <ESP8266WebServer.h>
 #include <env.h>
 
-const char* ssid = WIFI_ESSID;
-const char* password = "Madmen!!";
+// -----------------------------------------------
+// -----------------------------------------------
+// -----------------------------------------------
 
 // Lower-case version of hostname (set later)
 String hostnameLower = "";
 
 ESP8266WebServer server(80);
 
+// -----------------------------------------------
+// -----------------------------------------------
+// -----------------------------------------------
 #define LED_PIN 5
 
+// -----------------------------------------------
+// -----------------------------------------------
+// -----------------------------------------------
 void handleRoot() {
 
   String output = "hostname: ";
@@ -30,12 +37,16 @@ void handleRoot() {
 }
 
 void sendPushNotification(String title, String message) {
+
   HTTPClient http;
   http.begin("http://api.pushover.net/1/messages.json");
   http.addHeader("Content-Type", "application/x-www-form-urlencoded");
 
-  String postBody = "token=a6WvGcj39uyCnDbL7h4G5zM7HjFF7P&user=ugof9hrmsSEfhkhMmNHwrYAtPvKYuZ&device=Laptop";
+  String postBody = "";
 
+  postBody = postBody + "token=" + PUSHOVER_TOKEN;
+  postBody = postBody + "&user="   + PUSHOVER_USER;
+  postBody = postBody + "&device=Laptop";
   postBody = postBody + "&title="   + title;
   postBody = postBody + "&message=" + message;
   postBody = postBody + "&url=http://" + hostnameLower;
@@ -55,7 +66,7 @@ void setup() {
   Serial.begin(115200);
   Serial.println("Booting");
   WiFi.mode(WIFI_STA);
-  WiFi.begin(ssid, password);
+  WiFi.begin(WIFI_ESSID, WIFI_PASSWORD);
   while (WiFi.waitForConnectResult() != WL_CONNECTED) {
     Serial.println("Connection Failed! Rebooting...");
     delay(5000);
