@@ -58,6 +58,9 @@ void sendPushNotification(String title, String message) {
   http.end();
 }
 
+// -----------------------------------------------
+// SETUP -----------------------------------------
+// -----------------------------------------------
 void setup() {
 
   pinMode(BUILTIN_LED, OUTPUT);
@@ -116,18 +119,10 @@ void setup() {
   digitalWrite(BUILTIN_LED, LOW);
 }
 
+// -----------------------------------------------
+// LOOP ------------------------------------------
+// -----------------------------------------------
 void loop() {
   ArduinoOTA.handle();
   server.handleClient();
-
-  /*
-
-  digitalWrite(BUILTIN_LED, HIGH);
-  //digitalWrite(LED_PIN, HIGH);
-  delay(200);
-  digitalWrite(BUILTIN_LED, LOW);
-  //digitalWrite(LED_PIN, LOW);
-  delay(200);
-  */
-
 }
