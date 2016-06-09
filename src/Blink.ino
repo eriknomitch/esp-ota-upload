@@ -37,6 +37,8 @@ void sendPushNotification(String title, String message) {
 
   postBody = postBody + "&title="   + title;
   postBody = postBody + "&message=" + message;
+  postBody = postBody + "&url=http://" + hostnameLower;
+  postBody = postBody + "&url_title=" + hostnameLower;
   postBody = postBody + "&sound=none";
 
   http.POST(postBody);
