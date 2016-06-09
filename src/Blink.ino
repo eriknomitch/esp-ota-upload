@@ -3,11 +3,30 @@
 #include <WiFiUdp.h>
 #include <ArduinoOTA.h>
 #include <ESP8266HTTPClient.h>
+#include <ESP8266WebServer.h>
 
 const char* ssid = "Toad2G";
 const char* password = "Madmen!!";
 
+// Lower-case version of hostname (set later)
+String hostnameLower = "";
+
+ESP8266WebServer server(80);
+
 #define LED_PIN 5
+
+void handleRoot() {
+
+  String output = "hostname: ";
+
+  output = output + "<a href='http://";
+  output = output + hostnameLower;
+  output = output + "'>";
+  output = output + hostnameLower;
+  output = output + "</a>";
+
+  server.send(200, "text/html", output);
+}
 
 void sendPushNotification(String title, String message) {
   HTTPClient http;
@@ -72,13 +91,20 @@ void setup() {
   Serial.print("IP address: ");
   Serial.println(WiFi.localIP());
 
-  sendPushNotification(WiFi.hostname(), WiFi.localIP().toString());
+  server.on("/", handleRoot);
+  server.begin();
+
+  hostnameLower = WiFi.hostname();
+  hostnameLower.toLowerCase();
+
+  sendPushNotification(hostnameLower, WiFi.localIP().toString());
   
   digitalWrite(BUILTIN_LED, LOW);
 }
 
 void loop() {
   ArduinoOTA.handle();
+  server.handleClient();
 
   /*
 
