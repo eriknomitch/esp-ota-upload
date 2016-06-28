@@ -2,11 +2,12 @@
 
 _base_environment="esp01_1m"
 #_base_environment="nodemcuv2"
-
+#_local_tty_dev="/dev/tty.SLAB_USBtoUART"
+_local_tty_dev="/dev/tty.wchusbserial1410"
 
 if [[ -z $1 ]] ; then
-  if [[ -e /dev/tty.SLAB_USBtoUART ]] ; then
-    echo "Device found locally."
+  if [[ -e $_local_tty_dev ]] ; then
+    echo "Device found locally at: $_local_tty_dev"
     _environment=$_base_environment
   else
     echo "Device not found locally; uploading via OTA."
@@ -15,6 +16,11 @@ if [[ -z $1 ]] ; then
 else
   _environment=$1
 fi
+
+echo "Environment: $_environment"
+echo
+echo "Running in 5 seconds..."
+sleep 5
 
 if platformio run --target upload --environment $_environment ; then
   _message="Success."
