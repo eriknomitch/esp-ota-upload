@@ -15,6 +15,10 @@ String hostnameLower = "";
 
 ESP8266WebServer server(80);
 
+#define ESP_WITTY_LED_RED 15
+#define ESP_WITTY_LED_GREEN 12
+#define ESP_WITTY_LED_BLUE 13
+
 // -----------------------------------------------
 // -----------------------------------------------
 // -----------------------------------------------
@@ -32,6 +36,16 @@ void handleRoot() {
   output = output + "'>";
   output = output + hostnameLower;
   output = output + "</a>";
+  
+  output = output + "</br>";
+  output = output + "</br>";
+  
+  output = output + "<a href='/on'>ON</a>";
+  
+  output = output + "</br>";
+  output = output + "</br>";
+  
+  output = output + "<a href='/off'>OFF</a>";
 
   server.send(200, "text/html", output);
 }
@@ -62,6 +76,10 @@ void sendPushNotification(String title, String message) {
 // SETUP -----------------------------------------
 // -----------------------------------------------
 void setup() {
+
+  pinMode(ESP_WITTY_LED_RED, OUTPUT);
+  pinMode(ESP_WITTY_LED_GREEN, OUTPUT);
+  pinMode(ESP_WITTY_LED_BLUE, OUTPUT);
 
   pinMode(BUILTIN_LED, OUTPUT);
   pinMode(LED_PIN, OUTPUT);
@@ -109,6 +127,19 @@ void setup() {
   Serial.println(WiFi.localIP());
 
   server.on("/", handleRoot);
+
+  server.on("/on", [](){
+    digitalWrite(ESP_WITTY_LED_GREEN, HIGH);
+
+    server.send(200, "text/html", "Okay.");
+  });
+  
+  server.on("/off", [](){
+    digitalWrite(ESP_WITTY_LED_GREEN, LOW);
+
+    server.send(200, "text/html", "Okay.");
+  });
+
   server.begin();
 
   hostnameLower = WiFi.hostname();
