@@ -1,7 +1,8 @@
 #!/bin/zsh
 
-_base_environment="esp01_1m"
-#_base_environment="nodemcuv2"
+#_base_environment="esp01_1m"
+_base_environment="nodemcuv2"
+
 #_local_tty_dev="/dev/tty.SLAB_USBtoUART"
 _local_tty_dev="/dev/tty.wchusbserial1410"
 
