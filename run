@@ -19,8 +19,7 @@ fi
 
 echo "Environment: $_environment"
 echo
-echo "Running in 5 seconds..."
-sleep 5
+prompt "Run?" || exit 1
 
 if platformio run --target upload --environment $_environment ; then
   _message="Success."
