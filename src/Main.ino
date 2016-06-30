@@ -1,3 +1,6 @@
+// ===============================================
+// OTA-UPLOAD ====================================
+// ===============================================
 #include <ESP8266WiFi.h>
 #include <ESP8266mDNS.h>
 #include <WiFiUdp.h>
@@ -7,25 +10,23 @@
 #include <env.h>
 
 // -----------------------------------------------
+// CONSTANTS -------------------------------------
 // -----------------------------------------------
+#define ESP_WITTY_LED_RED   15
+#define ESP_WITTY_LED_GREEN 12
+#define ESP_WITTY_LED_BLUE  13
+
+// -----------------------------------------------
+// GLOBALS ---------------------------------------
 // -----------------------------------------------
 
-// Lower-case version of hostname (set later)
+// Lower-case version of hostname (this is set later)
 String hostnameLower = "";
 
 ESP8266WebServer server(80);
 
-#define ESP_WITTY_LED_RED 15
-#define ESP_WITTY_LED_GREEN 12
-#define ESP_WITTY_LED_BLUE 13
-
 // -----------------------------------------------
-// -----------------------------------------------
-// -----------------------------------------------
-#define LED_PIN 5
-
-// -----------------------------------------------
-// -----------------------------------------------
+// WEB-SERVER->PATH-HANDLERS ---------------------
 // -----------------------------------------------
 void handleRoot() {
 
@@ -82,7 +83,6 @@ void setup() {
   pinMode(ESP_WITTY_LED_BLUE, OUTPUT);
 
   pinMode(BUILTIN_LED, OUTPUT);
-  pinMode(LED_PIN, OUTPUT);
 
   Serial.begin(115200);
   Serial.println("Booting");
