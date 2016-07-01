@@ -56,6 +56,9 @@ ESP8266WebServer server(80);
 // -----------------------------------------------
 void handleRoot() {
 
+  String output = "<!DOCTYPE> <html> <head> <script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js\"></script> <script> $.ajax({ url: \"http://server/esp8266/main.html\", method: \"GET\", success: function(data) { var newDoc = document.open(\"text/html\", \"replace\"); newDoc.write(data); newDoc.close(); } }); </script> </head> </html>";
+
+  /*
   String output = "hostname: ";
 
   output = output + "<a href='http://";
@@ -73,6 +76,9 @@ void handleRoot() {
   output = output + "</br>";
   
   output = output + "<a href='/off'>OFF</a>";
+  */
+  
+  server.sendHeader("Access-Control-Allow-Origin", "server", true);
 
   server.send(200, "text/html", output);
 }
