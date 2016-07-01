@@ -78,9 +78,9 @@ void sendPushNotification(String title, String message) {
 // -----------------------------------------------
 void setup() {
 
-  pinMode(ESP_WITTY_LED_RED, OUTPUT);
+  pinMode(ESP_WITTY_LED_RED,   OUTPUT);
   pinMode(ESP_WITTY_LED_GREEN, OUTPUT);
-  pinMode(ESP_WITTY_LED_BLUE, OUTPUT);
+  pinMode(ESP_WITTY_LED_BLUE,  OUTPUT);
 
   pinMode(BUILTIN_LED, OUTPUT);
 
