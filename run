@@ -10,11 +10,11 @@ _local_tty_dev="/dev/tty.wchusbserial1410"
 
 if [[ -z $1 ]] ; then
   if [[ -e $_local_tty_dev ]] ; then
-    echo "Device found locally at: $_local_tty_dev"
+    echo "Uploading locally to: $_local_tty_dev"
     _upload_port=$_local_tty_dev
     _environment=$_base_environment
   else
-    echo "Device not found locally; uploading via OTA to $_upload_port."
+    echo "Uploading via OTA to: $_upload_port."
     _environment=$_base_environment"_ota"
   fi
 else
