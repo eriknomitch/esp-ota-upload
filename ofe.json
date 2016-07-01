@@ -1,7 +1,7 @@
 {
   "default": {
     "extensions": [".ino", ".ini"],
-    "files": ["run", "ofe.json"]
+    "files": ["run"]
   },
   "docs": {
     "extensions": [".md"],
