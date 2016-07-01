@@ -23,7 +23,8 @@ fi
 
 echo "Environment: $_environment"
 echo
-prompt "Run?" || exit 1
+echo -n "Run? [ENTER] "
+read
 
 if platformio run --target upload --environment $_environment --upload-port=$_upload_port; then
   _message="Success."

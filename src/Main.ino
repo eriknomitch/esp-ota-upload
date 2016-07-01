@@ -24,6 +24,31 @@
 // Lower-case version of hostname (this is set later)
 String hostnameLower = "";
 
+void ESP8266WebServer_redirect(ESP8266WebServer webServer, String path) {
+
+  // Send the new location in the header
+  webServer.sendHeader("Location", String("http://") + hostnameLower, true);
+
+  // Empty content inhibits Content-length header so we have to close the socket ourselves.
+  webServer.send ( 302, "text/plain", ""); 
+
+  // Stop is needed because we sent no content length
+  //webServer.client().stop(); 
+}
+
+/*ESP8266WebServer::redirect(String path) {*/
+
+/*void ESP8266WebServer::redirect(String path) {*/
+
+    /*this.sendHeader("Location", String("http://") + hostnameLower + path, true);*/
+    
+    /*// Empty content inhibits Content-length header so we have to close the socket ourselves.*/
+    /*this.send ( 302, "text/plain", ""); */
+
+    /*// Stop is needed because we sent no content length*/
+    /*this.client().stop(); */
+/*}*/
+
 ESP8266WebServer server(80);
 
 // -----------------------------------------------
@@ -138,10 +163,24 @@ void setup() {
   server.on("/off", [](){
     digitalWrite(ESP_WITTY_LED_GREEN, LOW);
 
+    //ESP8266WebServer_redirect(server, "");
     server.send(200, "text/html", "Okay.");
+
   });
   
   server.on("/rainbow", [](){
+    for (int i = 0; i < 20; i++) {
+      pinHigh(ESP_WITTY_LED_GREEN);
+      delay(50);
+      pinLow(ESP_WITTY_LED_GREEN);
+      pinHigh(ESP_WITTY_LED_BLUE);
+      delay(50);
+      pinLow(ESP_WITTY_LED_BLUE);
+      pinHigh(ESP_WITTY_LED_RED);
+      delay(50);
+      pinLow(ESP_WITTY_LED_RED);
+    }
+
     server.send(200, "text/html", "Okay.");
   });
 

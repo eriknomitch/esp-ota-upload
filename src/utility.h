@@ -51,7 +51,7 @@ void blinkWithStartState(int pin, int blinkMs, int blinkTimes, bool startState) 
       delay(blinkMs);
       pinSet(pin, startState);
       delay(blinkMs);
-    NK}
+    }
 }
 
 // -----------------------------------------------
