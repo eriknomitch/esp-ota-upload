@@ -1,5 +1,7 @@
 #!/bin/zsh
 
+PLATFORMIO_UPLOAD_PORT=$SUBNET_PREFIX"55"
+
 #_base_environment="esp01_1m"
 _base_environment="nodemcuv2"
 
@@ -22,7 +24,7 @@ echo "Environment: $_environment"
 echo
 prompt "Run?" || exit 1
 
-if platformio run --target upload --environment $_environment ; then
+if platformio run --target upload --environment $_environment --upload-port=$PLATFORMIO_UPLOAD_PORT; then
   _message="Success."
 else
   _message="Failed to upload."
