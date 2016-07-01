@@ -1,6 +1,6 @@
 #!/bin/zsh
 
-PLATFORMIO_UPLOAD_PORT=$SUBNET_PREFIX"55"
+_upload_port=$SUBNET_PREFIX"55"
 
 #_base_environment="esp01_1m"
 _base_environment="nodemcuv2"
@@ -11,9 +11,10 @@ _local_tty_dev="/dev/tty.wchusbserial1410"
 if [[ -z $1 ]] ; then
   if [[ -e $_local_tty_dev ]] ; then
     echo "Device found locally at: $_local_tty_dev"
+    _upload_port=$_local_tty_dev
     _environment=$_base_environment
   else
-    echo "Device not found locally; uploading via OTA."
+    echo "Device not found locally; uploading via OTA to $_upload_port."
     _environment=$_base_environment"_ota"
   fi
 else
@@ -24,7 +25,7 @@ echo "Environment: $_environment"
 echo
 prompt "Run?" || exit 1
 
-if platformio run --target upload --environment $_environment --upload-port=$PLATFORMIO_UPLOAD_PORT; then
+if platformio run --target upload --environment $_environment --upload-port=$_upload_port; then
   _message="Success."
 else
   _message="Failed to upload."
