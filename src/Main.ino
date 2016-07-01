@@ -8,6 +8,7 @@
 #include <ESP8266HTTPClient.h>
 #include <ESP8266WebServer.h>
 #include <env.h>
+#include <utility.h>
 
 // -----------------------------------------------
 // CONSTANTS -------------------------------------
@@ -137,6 +138,10 @@ void setup() {
   server.on("/off", [](){
     digitalWrite(ESP_WITTY_LED_GREEN, LOW);
 
+    server.send(200, "text/html", "Okay.");
+  });
+  
+  server.on("/rainbow", [](){
     server.send(200, "text/html", "Okay.");
   });
 
