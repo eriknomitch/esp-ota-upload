@@ -3,6 +3,9 @@
 // ===============================================
 #define arrayLength(x) (sizeof(x) / sizeof(*x))
 
+// -----------------------------------------------
+// PINS ------------------------------------------
+// -----------------------------------------------
 void pinHigh(int pin) {
   digitalWrite(pin, HIGH);
 }
@@ -30,6 +33,9 @@ void pinsOutput(int pins[]) {
     }
 }
 
+// -----------------------------------------------
+// BLINKING --------------------------------------
+// -----------------------------------------------
 void blink(int pin, int blinkMs, int blinkTimes) {
   for (int i = 0; i < blinkTimes; i++) {
         pinHigh(pin);
@@ -45,8 +51,12 @@ void blinkWithStartState(int pin, int blinkMs, int blinkTimes, bool startState) 
       delay(blinkMs);
       pinSet(pin, startState);
       delay(blinkMs);
-    }
+    NK}
 }
+
+// -----------------------------------------------
+// SERIAL ----------------------------------------
+// -----------------------------------------------
 
 // WARNING: I believe this will only work in screen.
 void clearSerial() {
