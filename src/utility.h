@@ -1,6 +1,8 @@
 // ===============================================
 // UTILITY =======================================
 // ===============================================
+#define arrayLength(x) (sizeof(x) / sizeof(*x))
+
 void pinHigh(int pin) {
   digitalWrite(pin, HIGH);
 }
