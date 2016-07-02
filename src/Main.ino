@@ -17,6 +17,11 @@
 #define ESP_WITTY_LED_GREEN 12
 #define ESP_WITTY_LED_BLUE  13
 
+#define LUMINANCE_MAX 730.0
+#define LUMINANCE_MIN 30.0
+
+#define ANALOG_MAX 1024.0
+
 // -----------------------------------------------
 // GLOBALS ---------------------------------------
 // -----------------------------------------------
@@ -96,6 +101,8 @@ void setup() {
 
   pinMode(BUILTIN_LED, OUTPUT);
 
+  pinMode(A0, INPUT);
+
   Serial.begin(115200);
   Serial.println("Booting");
   WiFi.mode(WIFI_STA);
@@ -154,6 +161,13 @@ void setup() {
 
   });
   
+  server.on("/luminance", [](){
+
+    String luminance = String(analogRead(A0));
+
+    server.send(200, "text/plain", luminance);
+  });
+
   server.on("/rainbow", [](){
     for (int i = 0; i < 20; i++) {
       pinHigh(ESP_WITTY_LED_GREEN);
@@ -186,4 +200,15 @@ void setup() {
 void loop() {
   ArduinoOTA.handle();
   server.handleClient();
+
+  /*
+  float luminance = analogRead(A0);
+
+  float ledLevel = luminance * ANALOG_MAX / LUMINANCE_MAX;
+  
+  Serial.println(ledLevel);
+
+  analogWrite(ESP_WITTY_LED_GREEN, ledLevel);
+  */
+
 }
