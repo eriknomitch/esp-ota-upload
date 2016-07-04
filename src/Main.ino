@@ -57,6 +57,13 @@ void ESP8266WebServer_redirect(ESP8266WebServer webServer, String path) {
 ESP8266WebServer server(80);
 
 // -----------------------------------------------
+// GLOBALS->BLINK --------------------------------
+// -----------------------------------------------
+int ledState = LOW;
+long previousMillis = 0;
+long interval = 1000;
+
+// -----------------------------------------------
 // WEB-SERVER->PATH-HANDLERS ---------------------
 // -----------------------------------------------
 void handleRoot() {
@@ -195,20 +202,33 @@ void setup() {
 }
 
 // -----------------------------------------------
+// -----------------------------------------------
+// -----------------------------------------------
+void handleBlink() {
+
+  unsigned long currentMillis = millis();
+
+  if(currentMillis - previousMillis > interval) {
+    previousMillis = currentMillis;   
+
+    if (ledState == LOW)
+      ledState = HIGH;
+    else
+      ledState = LOW;
+
+    // set the LED with the ledState of the variable:
+    digitalWrite(ESP_WITTY_LED_GREEN, ledState);
+  }
+
+}
+
+// -----------------------------------------------
 // LOOP ------------------------------------------
 // -----------------------------------------------
 void loop() {
   ArduinoOTA.handle();
   server.handleClient();
 
-  /*
-  float luminance = analogRead(A0);
-
-  float ledLevel = luminance * ANALOG_MAX / LUMINANCE_MAX;
-  
-  Serial.println(ledLevel);
-
-  analogWrite(ESP_WITTY_LED_GREEN, ledLevel);
-  */
+  handleBlink();
 
 }
