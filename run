@@ -1,5 +1,8 @@
 #!/bin/zsh
 
+# ------------------------------------------------
+# GLOBALS ----------------------------------------
+# ------------------------------------------------
 _upload_port=$SUBNET_PREFIX"55"
 
 #_base_environment="esp01_1m"
@@ -8,28 +11,40 @@ _base_environment="nodemcuv2"
 #_local_tty_dev="/dev/tty.SLAB_USBtoUART"
 _local_tty_dev="/dev/tty.wchusbserial1410"
 
+# ------------------------------------------------
+# MAIN -------------------------------------------
+# ------------------------------------------------
+
+# Determine upload port
+# ------------------------------------------------
 if [[ -z $1 ]] ; then
   if [[ -e $_local_tty_dev ]] ; then
-    echo "Uploading locally to: $_local_tty_dev"
+    echo "Uploading locally to: `stylize $_local_tty_dev`"
     _upload_port=$_local_tty_dev
     _environment=$_base_environment
   else
-    echo "Uploading via OTA to: $_upload_port."
+    echo "Uploading via OTA to: `stylize $_upload_port`"
     _environment=$_base_environment"_ota"
   fi
 else
   _environment=$1
 fi
 
-echo "Environment: $_environment"
-echo
+# Prompt
+# ------------------------------------------------
+echo "Environment: `stylize $_environment`"
+print-row
 echo -n "Run? [ENTER] "
 read
 
+# Run
+# ------------------------------------------------
 if platformio run --target upload --environment $_environment --upload-port=$_upload_port; then
   _message="Success."
 else
   _message="Failed to upload."
 fi
 
+# Notify
+# ------------------------------------------------
 notify "Upload" $_message

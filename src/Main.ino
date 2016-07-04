@@ -17,6 +17,8 @@
 #define ESP_WITTY_LED_GREEN 12
 #define ESP_WITTY_LED_BLUE  13
 
+#define LED_STATUS ESP_WITTY_LED_GREEN
+
 #define LUMINANCE_MAX 730.0
 #define LUMINANCE_MIN 30.0
 
@@ -205,21 +207,15 @@ void setup() {
 // -----------------------------------------------
 // -----------------------------------------------
 void handleBlink() {
-
   unsigned long currentMillis = millis();
 
   if(currentMillis - previousMillis > interval) {
-    previousMillis = currentMillis;   
+    previousMillis = currentMillis;
 
-    if (ledState == LOW)
-      ledState = HIGH;
-    else
-      ledState = LOW;
+    ledState = ledState == LOW ? HIGH : LOW;
 
-    // set the LED with the ledState of the variable:
-    digitalWrite(ESP_WITTY_LED_GREEN, ledState);
+    analogWrite(LED_STATUS, ledState == LOW ? 0 : 50);
   }
-
 }
 
 // -----------------------------------------------
@@ -228,7 +224,5 @@ void handleBlink() {
 void loop() {
   ArduinoOTA.handle();
   server.handleClient();
-
   handleBlink();
-
 }
