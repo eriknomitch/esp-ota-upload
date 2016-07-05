@@ -189,6 +189,13 @@ void setupWebServer() {
 }
 
 // -----------------------------------------------
+// SETUP->SERIAL ---------------------------------
+// -----------------------------------------------
+void setupSerial() {
+  Serial.begin(SERIAL_BAUD);
+}
+
+// -----------------------------------------------
 // SETUP->WI-FI ----------------------------------
 // -----------------------------------------------
 void setupWiFi() {
@@ -221,8 +228,7 @@ void setup() {
   
   digitalWrite(BUILTIN_LED, LOW);
 
-  Serial.begin(SERIAL_BAUD);
-  Serial.println("Booting");
+  setupSerial();
 
   setupWiFi();
 
