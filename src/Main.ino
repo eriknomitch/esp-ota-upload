@@ -79,6 +79,9 @@ void handleRoot() {
   server.send(200, "text/html", output);
 }
 
+// -----------------------------------------------
+// PUSHOVER --------------------------------------
+// -----------------------------------------------
 void sendPushNotification(String title, String message) {
 
   HTTPClient http;
