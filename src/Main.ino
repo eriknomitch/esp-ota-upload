@@ -24,6 +24,8 @@
 
 #define ANALOG_MAX 1024.0
 
+#define SERIAL_BAUD 115200
+
 // -----------------------------------------------
 // GLOBALS ---------------------------------------
 // -----------------------------------------------
@@ -187,6 +189,26 @@ void setupWebServer() {
 }
 
 // -----------------------------------------------
+// SETUP->WI-FI ----------------------------------
+// -----------------------------------------------
+void setupWiFi() {
+  WiFi.mode(WIFI_STA);
+  WiFi.begin(WIFI_ESSID, WIFI_PASSWORD);
+  while (WiFi.waitForConnectResult() != WL_CONNECTED) {
+    Serial.println("Connection Failed! Rebooting...");
+    delay(5000);
+    ESP.restart();
+  }
+
+  Serial.println("Ready");
+  Serial.print("IP address: ");
+  Serial.println(WiFi.localIP());
+
+  hostnameLower = WiFi.hostname();
+  hostnameLower.toLowerCase();
+}
+
+// -----------------------------------------------
 // SETUP -----------------------------------------
 // -----------------------------------------------
 void setup() {
@@ -196,30 +218,18 @@ void setup() {
   pinMode(ESP_WITTY_LED_BLUE,  OUTPUT);
   pinMode(BUILTIN_LED,         OUTPUT);
   pinMode(A0,                  INPUT);
-
-  Serial.begin(115200);
-  Serial.println("Booting");
-
-  WiFi.mode(WIFI_STA);
-  WiFi.begin(WIFI_ESSID, WIFI_PASSWORD);
-  while (WiFi.waitForConnectResult() != WL_CONNECTED) {
-    Serial.println("Connection Failed! Rebooting...");
-    delay(5000);
-    ESP.restart();
-  }
-
-  setupOTA();
-
-  Serial.println("Ready");
-  Serial.print("IP address: ");
-  Serial.println(WiFi.localIP());
-
-  setupWebServer();
-
-  hostnameLower = WiFi.hostname();
-  hostnameLower.toLowerCase();
   
   digitalWrite(BUILTIN_LED, LOW);
+
+  Serial.begin(SERIAL_BAUD);
+  Serial.println("Booting");
+
+  setupWiFi();
+
+  setupOTA();
+  
+  setupWebServer();
+
   setStatusLED();
 
   sendPushNotification(hostnameLower, WiFi.localIP().toString());
