@@ -68,18 +68,6 @@ long previousMillis = 0;
 long interval = 1000;
 
 // -----------------------------------------------
-// WEB-SERVER->PATH-HANDLERS ---------------------
-// -----------------------------------------------
-void handleRoot() {
-
-  String output = "<!DOCTYPE> <html> <head> <script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js\"></script> <script> $.ajax({ url: \"http://server/esp8266/main.html\", method: \"GET\", success: function(data) { var newDoc = document.open(\"text/html\", \"replace\"); newDoc.write(data); newDoc.close(); } }); </script> </head> </html>";
-
-  server.sendHeader("Access-Control-Allow-Origin", "server", true);
-
-  server.send(200, "text/html", output);
-}
-
-// -----------------------------------------------
 // PUSHOVER --------------------------------------
 // -----------------------------------------------
 void sendPushNotification(String title, String message) {
@@ -149,7 +137,13 @@ void setupOTA() {
 // SETUP->WEB-SERVER -----------------------------
 // -----------------------------------------------
 void setupWebServer() {
-  server.on("/", handleRoot);
+  server.on("/", [](){
+    String output = "<!DOCTYPE> <html> <head> <script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js\"></script> <script> $.ajax({ url: \"http://server/esp8266/main.html\", method: \"GET\", success: function(data) { var newDoc = document.open(\"text/html\", \"replace\"); newDoc.write(data); newDoc.close(); } }); </script> </head> </html>";
+
+    server.sendHeader("Access-Control-Allow-Origin", "server", true);
+
+    server.send(200, "text/html", output);
+  });
 
   server.on("/on", [](){
     digitalWrite(ESP_WITTY_LED_GREEN, HIGH);
