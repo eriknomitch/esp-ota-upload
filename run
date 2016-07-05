@@ -33,7 +33,7 @@ fi
 # Prompt
 # ------------------------------------------------
 echo "Environment: `stylize $_environment`"
-print-row
+print-row -
 echo -n "Run? [ENTER] "
 read
 
