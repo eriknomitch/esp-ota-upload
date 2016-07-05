@@ -226,21 +226,6 @@ void setup() {
 }
 
 // -----------------------------------------------
-// -----------------------------------------------
-// -----------------------------------------------
-void handleBlink() {
-  unsigned long currentMillis = millis();
-
-  if(currentMillis - previousMillis > interval) {
-    previousMillis = currentMillis;
-
-    ledState = ledState == LOW ? HIGH : LOW;
-
-    analogWrite(LED_STATUS, ledState == LOW ? 0 : 50);
-  }
-}
-
-// -----------------------------------------------
 // LOOP ------------------------------------------
 // -----------------------------------------------
 void loop() {
