@@ -100,28 +100,16 @@ void sendPushNotification(String title, String message) {
 }
 
 // -----------------------------------------------
-// SETUP -----------------------------------------
+// STATUS-LED ------------------------------------
 // -----------------------------------------------
-void setup() {
+void setStatusLED() {
+  analogWrite(LED_STATUS, 50);
+}
 
-  pinMode(ESP_WITTY_LED_RED,   OUTPUT);
-  pinMode(ESP_WITTY_LED_GREEN, OUTPUT);
-  pinMode(ESP_WITTY_LED_BLUE,  OUTPUT);
-
-  pinMode(BUILTIN_LED, OUTPUT);
-
-  pinMode(A0, INPUT);
-
-  Serial.begin(115200);
-  Serial.println("Booting");
-  WiFi.mode(WIFI_STA);
-  WiFi.begin(WIFI_ESSID, WIFI_PASSWORD);
-  while (WiFi.waitForConnectResult() != WL_CONNECTED) {
-    Serial.println("Connection Failed! Rebooting...");
-    delay(5000);
-    ESP.restart();
-  }
-
+// -----------------------------------------------
+// SETUP->OTA ------------------------------------
+// -----------------------------------------------
+void setupOTA() {
   // Port defaults to 8266
   // ArduinoOTA.setPort(8266);
 
@@ -150,10 +138,12 @@ void setup() {
   });
 
   ArduinoOTA.begin();
-  Serial.println("Ready");
-  Serial.print("IP address: ");
-  Serial.println(WiFi.localIP());
+}
 
+// -----------------------------------------------
+// SETUP->WEB-SERVER -----------------------------
+// -----------------------------------------------
+void setupWebServer() {
   server.on("/", handleRoot);
 
   server.on("/on", [](){
@@ -194,13 +184,45 @@ void setup() {
   });
 
   server.begin();
+}
+
+// -----------------------------------------------
+// SETUP -----------------------------------------
+// -----------------------------------------------
+void setup() {
+
+  pinMode(ESP_WITTY_LED_RED,   OUTPUT);
+  pinMode(ESP_WITTY_LED_GREEN, OUTPUT);
+  pinMode(ESP_WITTY_LED_BLUE,  OUTPUT);
+  pinMode(BUILTIN_LED,         OUTPUT);
+  pinMode(A0,                  INPUT);
+
+  Serial.begin(115200);
+  Serial.println("Booting");
+
+  WiFi.mode(WIFI_STA);
+  WiFi.begin(WIFI_ESSID, WIFI_PASSWORD);
+  while (WiFi.waitForConnectResult() != WL_CONNECTED) {
+    Serial.println("Connection Failed! Rebooting...");
+    delay(5000);
+    ESP.restart();
+  }
+
+  setupOTA();
+
+  Serial.println("Ready");
+  Serial.print("IP address: ");
+  Serial.println(WiFi.localIP());
+
+  setupWebServer();
 
   hostnameLower = WiFi.hostname();
   hostnameLower.toLowerCase();
-
-  sendPushNotification(hostnameLower, WiFi.localIP().toString());
   
   digitalWrite(BUILTIN_LED, LOW);
+  setStatusLED();
+
+  sendPushNotification(hostnameLower, WiFi.localIP().toString());
 }
 
 // -----------------------------------------------
@@ -224,5 +246,4 @@ void handleBlink() {
 void loop() {
   ArduinoOTA.handle();
   server.handleClient();
-  handleBlink();
 }
