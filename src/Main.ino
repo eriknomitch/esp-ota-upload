@@ -22,22 +22,25 @@
 ESP8266WebServer server(SERVER_HTTP_PORT);
 
 // -----------------------------------------------
-// SETUP->WEB-SERVER -----------------------------
+// SETUP->WEB-SERVER->ROUTES ---------------------
 // -----------------------------------------------
-void setupWebServer() {
+void setupWebServerRoutes() {
 
-  // Path: /
+  // Route: /
   // ---------------------------------------------
   server.on("/", [](){
     String output = "Hello, World.";
 
     server.send(200, "text/html", output);
   });
+}
 
-  // Begin
-  // ---------------------------------------------
+// -----------------------------------------------
+// SETUP->WEB-SERVER -----------------------------
+// -----------------------------------------------
+void setupWebServer() {
+  setupWebServerRoutes();
   server.begin();
-
   //MDNS.addService("http", "tcp", 80);
 }
 
