@@ -123,11 +123,32 @@ void setupOTA() {
 }
 
 // -----------------------------------------------
+// SETUP->MDNS -----------------------------------
+// -----------------------------------------------
+void setupMDNS() {
+  // Set up mDNS responder:
+  // - first argument is the domain name, in this example
+  //   the fully-qualified domain name is "esp8266.local"
+  // - second argument is the IP address to advertise
+  //   we send our IP address on the WiFi network
+    /*
+  if (!MDNS.begin(hostnameLower)) {
+    Serial.println("Error setting up MDNS responder!");
+    while(1) { 
+      delay(1000);
+    }
+  } else {
+    Serial.println("mDNS responder started");
+  }
+    */
+}
+
+// -----------------------------------------------
 // SETUP->WEB-SERVER -----------------------------
 // -----------------------------------------------
 void setupWebServer() {
   server.on("/", [](){
-    String output = "Hello, World.";
+    String output = "Hello, Peef. Test: 3";
 
     server.send(200, "text/html", output);
   });
@@ -145,6 +166,8 @@ void setupWebServer() {
   });
 
   server.begin();
+
+  //MDNS.addService("http", "tcp", 80);
 }
 
 // -----------------------------------------------
@@ -184,6 +207,8 @@ void setup() {
   setupSerial();
 
   setupWiFi();
+
+  //setupMDNS();
 
   setupOTA();
   
