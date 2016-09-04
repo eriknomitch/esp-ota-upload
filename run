@@ -3,13 +3,11 @@
 # ------------------------------------------------
 # GLOBALS ----------------------------------------
 # ------------------------------------------------
-_upload_port=$SUBNET_PREFIX"55"
+_upload_port="ESP_0B9FA1"
 
-#_base_environment="esp01_1m"
 _base_environment="nodemcuv2"
 
-#_local_tty_dev="/dev/tty.SLAB_USBtoUART"
-_local_tty_dev="/dev/tty.wchusbserial1410"
+_local_tty_dev="/dev/tty.SLAB_USBtoUART"
 
 # ------------------------------------------------
 # MAIN -------------------------------------------
@@ -44,7 +42,3 @@ if platformio run --target upload --environment $_environment --upload-port=$_up
 else
   _message="Failed to upload."
 fi
-
-# Notify
-# ------------------------------------------------
-notify "Upload" $_message

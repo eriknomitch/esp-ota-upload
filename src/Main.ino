@@ -13,17 +13,6 @@
 // -----------------------------------------------
 // CONSTANTS -------------------------------------
 // -----------------------------------------------
-#define ESP_WITTY_LED_RED   15
-#define ESP_WITTY_LED_GREEN 12
-#define ESP_WITTY_LED_BLUE  13
-
-#define LED_STATUS ESP_WITTY_LED_GREEN
-
-#define LUMINANCE_MAX 730.0
-#define LUMINANCE_MIN 30.0
-
-#define ANALOG_MAX 1024.0
-
 #define SERIAL_BAUD 115200
 
 // -----------------------------------------------
@@ -70,34 +59,34 @@ long interval = 1000;
 // -----------------------------------------------
 // PUSHOVER --------------------------------------
 // -----------------------------------------------
-void sendPushNotification(String title, String message) {
+/*void sendPushNotification(String title, String message) {*/
 
-  HTTPClient http;
-  http.begin("http://api.pushover.net/1/messages.json");
-  http.addHeader("Content-Type", "application/x-www-form-urlencoded");
+  /*HTTPClient http;*/
+  /*http.begin("http://api.pushover.net/1/messages.json");*/
+  /*http.addHeader("Content-Type", "application/x-www-form-urlencoded");*/
 
-  String postBody = "";
+  /*String postBody = "";*/
 
-  postBody = postBody + "token=" + PUSHOVER_TOKEN;
-  postBody = postBody + "&user="   + PUSHOVER_USER;
-  postBody = postBody + "&device=Laptop";
-  postBody = postBody + "&title="   + title;
-  postBody = postBody + "&message=" + message;
-  postBody = postBody + "&url=http://" + hostnameLower;
-  postBody = postBody + "&url_title=" + hostnameLower;
-  postBody = postBody + "&sound=none";
+  /*postBody = postBody + "token=" + PUSHOVER_TOKEN;*/
+  /*postBody = postBody + "&user="   + PUSHOVER_USER;*/
+  /*postBody = postBody + "&device=Laptop";*/
+  /*postBody = postBody + "&title="   + title;*/
+  /*postBody = postBody + "&message=" + message;*/
+  /*postBody = postBody + "&url=http://" + hostnameLower;*/
+  /*postBody = postBody + "&url_title=" + hostnameLower;*/
+  /*postBody = postBody + "&sound=none";*/
 
-  http.POST(postBody);
-  http.writeToStream(&Serial);
-  http.end();
-}
+  /*http.POST(postBody);*/
+  /*http.writeToStream(&Serial);*/
+  /*http.end();*/
+/*}*/
 
 // -----------------------------------------------
 // STATUS-LED ------------------------------------
 // -----------------------------------------------
-void setStatusLED() {
-  analogWrite(LED_STATUS, 50);
-}
+/*void setStatusLED() {*/
+  /*analogWrite(LED_STATUS, 50);*/
+/*}*/
 
 // -----------------------------------------------
 // SETUP->OTA ------------------------------------
@@ -138,48 +127,21 @@ void setupOTA() {
 // -----------------------------------------------
 void setupWebServer() {
   server.on("/", [](){
-    String output = "<!DOCTYPE> <html> <head> <script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js\"></script> <script> $.ajax({ url: \"http://server/esp8266/main.html\", method: \"GET\", success: function(data) { var newDoc = document.open(\"text/html\", \"replace\"); newDoc.write(data); newDoc.close(); } }); </script> </head> </html>";
-
-    //server.sendHeader("Access-Control-Allow-Origin", "server", true);
+    String output = "Hello, World.";
 
     server.send(200, "text/html", output);
   });
 
-  server.on("/on", [](){
-    digitalWrite(ESP_WITTY_LED_GREEN, HIGH);
-
-    server.send(200, "text/html", "Okay.");
-  });
-  
   server.on("/off", [](){
-    digitalWrite(ESP_WITTY_LED_GREEN, LOW);
-
-    //ESP8266WebServer_redirect(server, "");
-    server.send(200, "text/html", "Okay.");
-
+    // The builtin LED is REVERSED... HIGH is on.
+    digitalWrite(BUILTIN_LED, HIGH);
+    server.send(200, "text/html", "ok");
   });
   
-  server.on("/luminance", [](){
-
-    String luminance = String(analogRead(A0));
-
-    server.send(200, "text/plain", luminance);
-  });
-
-  server.on("/rainbow", [](){
-    for (int i = 0; i < 20; i++) {
-      pinHigh(ESP_WITTY_LED_GREEN);
-      delay(50);
-      pinLow(ESP_WITTY_LED_GREEN);
-      pinHigh(ESP_WITTY_LED_BLUE);
-      delay(50);
-      pinLow(ESP_WITTY_LED_BLUE);
-      pinHigh(ESP_WITTY_LED_RED);
-      delay(50);
-      pinLow(ESP_WITTY_LED_RED);
-    }
-
-    server.send(200, "text/html", "Okay.");
+  server.on("/on", [](){
+    // The builtin LED is REVERSED... HIGH is on.
+    digitalWrite(BUILTIN_LED, LOW);
+    server.send(200, "text/html", "ok");
   });
 
   server.begin();
@@ -217,12 +179,6 @@ void setupWiFi() {
 // -----------------------------------------------
 void setup() {
 
-  pinMode(ESP_WITTY_LED_RED,   OUTPUT);
-  pinMode(ESP_WITTY_LED_GREEN, OUTPUT);
-  pinMode(ESP_WITTY_LED_BLUE,  OUTPUT);
-  pinMode(BUILTIN_LED,         OUTPUT);
-  pinMode(A0,                  INPUT);
-  
   digitalWrite(BUILTIN_LED, LOW);
 
   setupSerial();
@@ -232,10 +188,6 @@ void setup() {
   setupOTA();
   
   setupWebServer();
-
-  setStatusLED();
-
-  sendPushNotification(hostnameLower, WiFi.localIP().toString());
 }
 
 // -----------------------------------------------
