@@ -2,7 +2,8 @@
 
 ## Dependencies
 
-* (PlatformIO)[http://platformio.org/]
+* [PlatformIO](http://platformio.org/)
+* Zsh (TEMPORARY)
 
 ## Installation
 
@@ -19,4 +20,6 @@ Create a file at `src/env.h` with the following contents:
 ```
 
 ## Usage
+
+
 
