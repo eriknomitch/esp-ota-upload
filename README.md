@@ -29,5 +29,5 @@ ESP_LOCAL_TTY_DEV="</dev/tty.* port of your ESP>"
 
 For the first run, plug in your ESP8266 and execute `./upload`.
 
-After that, you'll be able to do OTA uploads. Edit `src/Main.ino` as you'd like for your specific application
+After that, you'll be able to do OTA uploads. Edit `src/Main.ino` as you'd like for your specific application and execute `./upload` again after finding the IP/local domain of your ESP and setting it in `.env`.
 

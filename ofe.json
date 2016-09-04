@@ -1,7 +1,7 @@
 {
   "default": {
-    "extensions": [".ino", ".ini", ".h"],
-    "files": ["run"],
+    "extensions": [".ino", ".ini", ".h", "*.md"],
+    "files": ["run", "upload"],
     "first_file": "src/Main.ino"
   },
   "docs": {
